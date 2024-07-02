@@ -1,11 +1,15 @@
 package com.example.gerenciadortarefas.pessoa.model;
 
 import com.example.gerenciadortarefas.comum.enums.EDepartamento;
+import com.example.gerenciadortarefas.pessoa.dto.PessoaRequest;
 import com.example.gerenciadortarefas.tarefa.model.Tarefa;
 import jakarta.persistence.*;
 import lombok.*;
+import org.apache.commons.lang3.StringUtils;
 
 import java.util.List;
+
+import static org.apache.commons.lang3.StringUtils.isNotBlank;
 
 @Entity
 @Getter
@@ -35,5 +39,10 @@ public class Pessoa {
                 .nome(nome)
                 .departamento(departamento)
                 .build();
+    }
+
+    public void atualizarDados(PessoaRequest request) {
+        this.nome = isNotBlank(request.nome()) ? request.nome() : this.nome;
+        this.departamento = request.departamento() != null ? request.departamento() : this.departamento;
     }
 }

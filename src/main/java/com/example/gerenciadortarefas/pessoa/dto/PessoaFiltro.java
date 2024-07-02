@@ -1,12 +1,19 @@
 package com.example.gerenciadortarefas.pessoa.dto;
 
-public record PessoaFiltro (
-        Integer id
+import com.example.gerenciadortarefas.comum.enums.EDepartamento;
+import com.querydsl.core.types.Predicate;
+
+public record PessoaFiltro(
+        Integer id,
+        String nome,
+        EDepartamento departamento
 ) {
 
-
-    public PessoaPredicate toPredicate() {
+    public Predicate toPredicate() {
         return new PessoaPredicate()
-                .comId(id);
+                .comId(id)
+                .comNome(nome)
+                .comDepartado(departamento)
+                .build();
     }
 }
