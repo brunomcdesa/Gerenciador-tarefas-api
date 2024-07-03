@@ -8,11 +8,11 @@ import com.example.gerenciadortarefas.pessoa.dto.PessoaResponse;
 import com.example.gerenciadortarefas.pessoa.model.Pessoa;
 import com.example.gerenciadortarefas.pessoa.repository.PessoaRepository;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
-
+@Slf4j
 @Service
 @RequiredArgsConstructor
 public class PessoaService {
@@ -27,6 +27,10 @@ public class PessoaService {
         return repository.findAll(filtro.toPredicate(), pageRequest).map(PessoaResponse::of);
     }
 
+    public PessoaResponse buscarPorId(Integer id) {
+        return PessoaResponse.of(findById(id));
+    }
+
     public void atualizar(Integer id, PessoaRequest request) {
         var pessoa = findById(id);
         pessoa.atualizarDados(request);
@@ -34,6 +38,12 @@ public class PessoaService {
     }
 
     private Pessoa findById(Integer id) {
-        return repository.findById(id).orElseThrow(() -> new NotFoundException("Pessoa não encontrada."));
+        return repository.findById(id)
+                .orElseThrow(() -> new NotFoundException("Pessoa não encontrada."));
+    }
+
+    public void remover(Integer id) {
+        repository.deleteById(id);
+        log.info("Pessoa {} removida com sucesso!", id);
     }
 }

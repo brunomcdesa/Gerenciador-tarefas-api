@@ -10,8 +10,6 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
-
 import static org.springframework.http.HttpStatus.NO_CONTENT;
 
 @RestController
@@ -32,9 +30,20 @@ public class PessoaController {
         return service.buscarTodos(filtro, pageRequest);
     }
 
+    @GetMapping("{id}")
+    public PessoaResponse buscarPorId(@PathVariable Integer id) {
+        return service.buscarPorId(id);
+    }
+
     @PutMapping("{id}")
     @ResponseStatus(NO_CONTENT)
     public void atualizar(@PathVariable Integer id, @RequestBody PessoaRequest request) {
         service.atualizar(id, request);
+    }
+
+    @DeleteMapping("{id}")
+    @ResponseStatus(NO_CONTENT)
+    public void remover(@PathVariable Integer id) {
+        service.remover(id);
     }
 }
