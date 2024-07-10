@@ -1,14 +1,20 @@
 package com.example.gerenciadortarefas.tarefa.model;
 
+import com.example.gerenciadortarefas.comum.enums.EBoolean;
+import com.example.gerenciadortarefas.comum.enums.EDepartamento;
 import com.example.gerenciadortarefas.pessoa.model.Pessoa;
+import com.example.gerenciadortarefas.tarefa.dto.TarefaRequest;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.springframework.beans.BeanUtils;
 
 import java.time.LocalDateTime;
 import java.time.LocalTime;
+
+import static com.example.gerenciadortarefas.comum.enums.EBoolean.F;
 
 @Entity
 @Getter
@@ -19,7 +25,7 @@ import java.time.LocalTime;
 public class Tarefa {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private Integer id;
 
     @Column(name = "TITULO")
@@ -31,15 +37,25 @@ public class Tarefa {
     @Column(name = "PRAZO")
     private LocalDateTime prazo;
 
+    @Enumerated(EnumType.STRING)
     @Column(name = "DEPARTAMENTO")
-    private String departamento;
+    private EDepartamento departamento;
 
     @Column(name = "DURACAO")
     private LocalTime duracao;
 
+    @Column(name = "FINALIZADO")
+    @Enumerated(EnumType.STRING)
+    private EBoolean finalizado;
+
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumns({@JoinColumn(name = "FK_PESSOA", referencedColumnName = "id", insertable = false, updatable = false)})
+    @JoinColumns({@JoinColumn(name = "FK_PESSOA", referencedColumnName = "id")})
     private Pessoa pessoaAlocada;
 
-    private boolean finalizado;
+    public static Tarefa of(TarefaRequest request) {
+        var tarefa = new Tarefa();
+        BeanUtils.copyProperties(request, tarefa);
+        tarefa.setFinalizado(F);
+        return tarefa;
+    }
 }
