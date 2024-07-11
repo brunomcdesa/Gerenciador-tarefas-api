@@ -26,4 +26,9 @@ public class TarefaController {
     public Page<TarefaResponse> listar(TarefaFiltro filtro, PageRequest pageRequest) {
         return service.listar(filtro, pageRequest);
     }
+
+    @PutMapping("{id}/alocar")
+    public void alocar(@PathVariable Integer id) {
+        service.alocar(id);
+    }
 }

@@ -18,14 +18,14 @@ public record TarefaResponse(
         EBoolean finalizado
 ) {
 
-        public static TarefaResponse of(Tarefa tarefa) {
-                return new TarefaResponse(
-                        tarefa.getTitulo(),
-                        tarefa.getDescricao(),
-                        tarefa.getDepartamento(),
-                        tarefa.getPrazo(),
-                        tarefa.getDuracao(),
-                        tarefa.getFinalizado()
-                );
-        }
+    public static TarefaResponse of(Tarefa tarefa) {
+        return new TarefaResponse(
+                tarefa.getTitulo(),
+                tarefa.getDescricao(),
+                tarefa.getDepartamento(),
+                tarefa.getPrazo(),
+                tarefa.getDuracao(),
+                tarefa.getFinalizado()
+        );
+    }
 }

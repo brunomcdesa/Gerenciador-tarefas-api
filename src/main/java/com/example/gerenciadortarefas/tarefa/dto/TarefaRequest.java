@@ -1,6 +1,5 @@
 package com.example.gerenciadortarefas.tarefa.dto;
 
-import com.example.gerenciadortarefas.comum.annotations.DateTimePattern;
 import com.example.gerenciadortarefas.comum.enums.EDepartamento;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import jakarta.validation.constraints.NotBlank;

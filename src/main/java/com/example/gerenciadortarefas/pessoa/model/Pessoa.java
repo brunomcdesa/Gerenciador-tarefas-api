@@ -5,7 +5,6 @@ import com.example.gerenciadortarefas.pessoa.dto.PessoaRequest;
 import com.example.gerenciadortarefas.tarefa.model.Tarefa;
 import jakarta.persistence.*;
 import lombok.*;
-import org.apache.commons.lang3.StringUtils;
 
 import java.util.List;
 
@@ -31,7 +30,7 @@ public class Pessoa {
     @Enumerated(EnumType.STRING)
     private EDepartamento departamento;
 
-    @OneToMany(fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "pessoaAlocada", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private List<Tarefa> tarefas;
 
     public static Pessoa of(String nome, EDepartamento departamento) {

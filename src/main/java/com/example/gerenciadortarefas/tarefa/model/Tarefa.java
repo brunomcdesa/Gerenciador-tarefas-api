@@ -49,7 +49,9 @@ public class Tarefa {
     private EBoolean finalizado;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumns({@JoinColumn(name = "FK_PESSOA", referencedColumnName = "id")})
+    @JoinColumn(name = "FK_PESSOA",
+            referencedColumnName = "ID",
+            foreignKey = @ForeignKey(name = "FK_PESSOA"))
     private Pessoa pessoaAlocada;
 
     public static Tarefa of(TarefaRequest request) {
