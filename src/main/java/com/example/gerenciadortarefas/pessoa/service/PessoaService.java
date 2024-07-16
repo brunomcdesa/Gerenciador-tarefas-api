@@ -13,7 +13,10 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalTime;
+import java.time.format.DateTimeFormatter;
 import java.util.Optional;
+import java.util.concurrent.atomic.AtomicReference;
 
 @Slf4j
 @Service
@@ -27,11 +30,13 @@ public class PessoaService {
     }
 
     public Page<PessoaResponse> buscarTodos(PessoaFiltro filtro, PageRequest pageRequest) {
-        return repository.findAll(filtro.toPredicate(), pageRequest).map(PessoaResponse::of);
+        return repository.findAll(filtro.toPredicate(), pageRequest)
+                .map(pessoa -> PessoaResponse.of(pessoa, getTotalHorasGastas(pessoa)));
     }
 
     public PessoaResponse buscarPorId(Integer id) {
-        return PessoaResponse.of(findById(id));
+        var pessoa = findById(id);
+        return PessoaResponse.of(pessoa, getTotalHorasGastas(pessoa));
     }
 
     public void atualizar(Integer id, PessoaRequest request) {
@@ -52,5 +57,17 @@ public class PessoaService {
 
     public Optional<Pessoa> findByDepartamento(EDepartamento departamento) {
         return repository.findByDepartamento(departamento);
+    }
+
+    private String getTotalHorasGastas(Pessoa pessoa) {
+        var totalHorasGastas = new AtomicReference<>(LocalTime.of(0, 0, 0));
+        pessoa.getTarefas()
+                .forEach(tarefa -> {
+                    var duracao = tarefa.getDuracao();
+                    totalHorasGastas.set(totalHorasGastas.get().plusHours(duracao.getHour())
+                            .plusMinutes(duracao.getMinute())
+                            .plusSeconds(duracao.getSecond()));
+                });
+        return totalHorasGastas.get().format(DateTimeFormatter.ofPattern("HH:mm:ss"));
     }
 }

@@ -1,5 +1,6 @@
 package com.example.gerenciadortarefas.tarefa.service;
 
+import com.example.gerenciadortarefas.comum.enums.EBoolean;
 import com.example.gerenciadortarefas.configuracoes.PageRequest;
 import com.example.gerenciadortarefas.configuracoes.exceptions.NotFoundException;
 import com.example.gerenciadortarefas.configuracoes.exceptions.ValidacaoException;
@@ -22,6 +23,7 @@ public class TarefaService {
     private final PessoaService pessoaService;
 
     public void salvar(TarefaRequest request) {
+        request.validarPrazo();
         repository.save(Tarefa.of(request));
     }
 
@@ -32,6 +34,7 @@ public class TarefaService {
     @Transactional
     public void alocar(Integer id) {
         var tarefa = findById(id);
+        validarTarefaFinalizada(tarefa);
         var pessoas = pessoaService.findByDepartamento(tarefa.getDepartamento())
                 .orElseThrow(() -> new ValidacaoException("Não existem pessoas neste departamento."));
         tarefa.setPessoaAlocada(pessoas);
@@ -40,5 +43,18 @@ public class TarefaService {
 
     private Tarefa findById(Integer id) {
         return repository.findById(id).orElseThrow(() -> new NotFoundException("Não foi possível encontrar a tarefa."));
+    }
+
+    public void finalizar(Integer id) {
+        var tarefa = findById(id);
+        validarTarefaFinalizada(tarefa);
+        tarefa.finalizar();
+        repository.save(tarefa);
+    }
+
+    private void validarTarefaFinalizada(Tarefa tarefa) {
+        if (tarefa.getFinalizado() == EBoolean.V) {
+            throw new ValidacaoException("A tarefa já foi finalizada.");
+        }
     }
 }

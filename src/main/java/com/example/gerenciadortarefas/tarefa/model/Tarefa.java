@@ -60,4 +60,8 @@ public class Tarefa {
         tarefa.setFinalizado(F);
         return tarefa;
     }
+
+    public void finalizar() {
+        this.setFinalizado(EBoolean.V);
+    }
 }

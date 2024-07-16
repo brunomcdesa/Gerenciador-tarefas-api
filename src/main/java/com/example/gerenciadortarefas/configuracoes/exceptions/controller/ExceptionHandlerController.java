@@ -2,6 +2,7 @@ package com.example.gerenciadortarefas.configuracoes.exceptions.controller;
 
 import com.example.gerenciadortarefas.configuracoes.exceptions.ErrorMessage;
 import com.example.gerenciadortarefas.configuracoes.exceptions.NotFoundException;
+import com.example.gerenciadortarefas.configuracoes.exceptions.ValidacaoException;
 import jakarta.validation.ConstraintViolationException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.validation.BindException;
@@ -42,6 +43,14 @@ public class ExceptionHandlerController {
                         String.format("O campo %s %s", error.getField(), error.getDefaultMessage()),
                         error.getField()))
                 .toList();
+    }
+
+    @ResponseBody
+    @ResponseStatus(BAD_REQUEST)
+    @ExceptionHandler(ValidacaoException.class)
+    public ErrorMessage handleNotFoundException(ValidacaoException ex) {
+        log.error(ex.getMessage());
+        return ErrorMessage.of(ex.getMessage());
     }
 }
 

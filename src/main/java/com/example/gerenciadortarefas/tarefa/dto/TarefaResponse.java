@@ -8,6 +8,9 @@ import com.example.gerenciadortarefas.tarefa.model.Tarefa;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 
+import static com.example.gerenciadortarefas.comum.enums.EBoolean.F;
+import static com.example.gerenciadortarefas.comum.enums.EBoolean.V;
+
 public record TarefaResponse(
         String titulo,
         String descricao,
@@ -15,7 +18,8 @@ public record TarefaResponse(
         @DateTimePattern
         LocalDateTime prazo,
         LocalTime duracao,
-        EBoolean finalizado
+        EBoolean finalizado,
+        EBoolean alocada
 ) {
 
     public static TarefaResponse of(Tarefa tarefa) {
@@ -25,7 +29,8 @@ public record TarefaResponse(
                 tarefa.getDepartamento(),
                 tarefa.getPrazo(),
                 tarefa.getDuracao(),
-                tarefa.getFinalizado()
+                tarefa.getFinalizado(),
+                tarefa.getPessoaAlocada() != null ? V : F
         );
     }
 }

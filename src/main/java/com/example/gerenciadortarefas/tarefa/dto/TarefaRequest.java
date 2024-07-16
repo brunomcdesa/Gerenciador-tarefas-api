@@ -1,6 +1,7 @@
 package com.example.gerenciadortarefas.tarefa.dto;
 
 import com.example.gerenciadortarefas.comum.enums.EDepartamento;
+import com.example.gerenciadortarefas.configuracoes.exceptions.ValidacaoException;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
@@ -21,4 +22,10 @@ public record TarefaRequest(
         @NotNull
         LocalTime duracao
 ) {
+
+    public void validarPrazo() {
+        if (this.prazo.isBefore(LocalDateTime.now())) {
+            throw new ValidacaoException("O prazo deve ser maior que a data atual.");
+        }
+    }
 }

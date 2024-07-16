@@ -5,9 +5,10 @@ import com.example.gerenciadortarefas.pessoa.model.Pessoa;
 
 public record PessoaResponse(
         String nome,
-        EDepartamento departamento) {
+        EDepartamento departamento,
+        String horasGastas) {
 
-    public static PessoaResponse of(Pessoa pessoa) {
-        return new PessoaResponse(pessoa.getNome(), pessoa.getDepartamento());
+    public static PessoaResponse of(Pessoa pessoa, String horasGastas) {
+        return new PessoaResponse(pessoa.getNome(), pessoa.getDepartamento(), horasGastas);
     }
 }
