@@ -1,6 +1,7 @@
 package com.example.gerenciadortarefas.tarefa.controller;
 
 import com.example.gerenciadortarefas.configuracoes.PageRequest;
+import com.example.gerenciadortarefas.pessoa.dto.PessoaResponse;
 import com.example.gerenciadortarefas.tarefa.dto.TarefaFiltro;
 import com.example.gerenciadortarefas.tarefa.dto.TarefaRequest;
 import com.example.gerenciadortarefas.tarefa.dto.TarefaResponse;
@@ -41,4 +42,5 @@ public class TarefaController {
     public void finalizar(@PathVariable Integer id) {
         service.finalizar(id);
     }
+
 }

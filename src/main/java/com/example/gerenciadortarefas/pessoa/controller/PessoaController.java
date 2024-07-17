@@ -2,6 +2,7 @@ package com.example.gerenciadortarefas.pessoa.controller;
 
 import com.example.gerenciadortarefas.configuracoes.PageRequest;
 import com.example.gerenciadortarefas.pessoa.dto.PessoaFiltro;
+import com.example.gerenciadortarefas.pessoa.dto.PessoaGastoResponse;
 import com.example.gerenciadortarefas.pessoa.dto.PessoaRequest;
 import com.example.gerenciadortarefas.pessoa.dto.PessoaResponse;
 import com.example.gerenciadortarefas.pessoa.service.PessoaService;
@@ -45,5 +46,10 @@ public class PessoaController {
     @ResponseStatus(NO_CONTENT)
     public void remover(@PathVariable Integer id) {
         service.remover(id);
+    }
+
+    @GetMapping("gastos")
+    public PessoaGastoResponse buscarMediaHorasGastas() {
+        return null;
     }
 }

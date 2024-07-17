@@ -14,9 +14,10 @@ import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalTime;
-import java.time.format.DateTimeFormatter;
 import java.util.Optional;
 import java.util.concurrent.atomic.AtomicReference;
+
+import static java.time.format.DateTimeFormatter.ofPattern;
 
 @Slf4j
 @Service
@@ -68,6 +69,6 @@ public class PessoaService {
                             .plusMinutes(duracao.getMinute())
                             .plusSeconds(duracao.getSecond()));
                 });
-        return totalHorasGastas.get().format(DateTimeFormatter.ofPattern("HH:mm:ss"));
+        return totalHorasGastas.get().format(ofPattern("HH:mm:ss"));
     }
 }
