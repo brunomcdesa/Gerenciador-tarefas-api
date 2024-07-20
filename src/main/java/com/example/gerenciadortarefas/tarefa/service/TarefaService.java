@@ -10,10 +10,11 @@ import com.example.gerenciadortarefas.tarefa.dto.TarefaRequest;
 import com.example.gerenciadortarefas.tarefa.dto.TarefaResponse;
 import com.example.gerenciadortarefas.tarefa.model.Tarefa;
 import com.example.gerenciadortarefas.tarefa.repository.TarefaRepository;
-import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Service;
+
+import jakarta.transaction.Transactional;
 
 @Service
 @RequiredArgsConstructor

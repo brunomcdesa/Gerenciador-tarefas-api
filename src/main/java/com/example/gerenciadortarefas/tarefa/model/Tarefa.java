@@ -4,13 +4,13 @@ import com.example.gerenciadortarefas.comum.enums.EBoolean;
 import com.example.gerenciadortarefas.comum.enums.EDepartamento;
 import com.example.gerenciadortarefas.pessoa.model.Pessoa;
 import com.example.gerenciadortarefas.tarefa.dto.TarefaRequest;
-import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.springframework.beans.BeanUtils;
 
+import jakarta.persistence.*;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 

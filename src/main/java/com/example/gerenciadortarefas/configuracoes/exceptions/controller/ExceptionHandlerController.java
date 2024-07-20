@@ -3,9 +3,7 @@ package com.example.gerenciadortarefas.configuracoes.exceptions.controller;
 import com.example.gerenciadortarefas.configuracoes.exceptions.ErrorMessage;
 import com.example.gerenciadortarefas.configuracoes.exceptions.NotFoundException;
 import com.example.gerenciadortarefas.configuracoes.exceptions.ValidacaoException;
-import jakarta.validation.ConstraintViolationException;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.validation.BindException;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -31,6 +29,14 @@ public class ExceptionHandlerController {
 
     @ResponseBody
     @ResponseStatus(BAD_REQUEST)
+    @ExceptionHandler(ValidacaoException.class)
+    public ErrorMessage handleValidacaoException(ValidacaoException ex) {
+        log.error(ex.getMessage());
+        return ErrorMessage.of(ex.getMessage());
+    }
+
+    @ResponseBody
+    @ResponseStatus(BAD_REQUEST)
     @ExceptionHandler(MethodArgumentNotValidException.class)
     public List<ErrorMessage> handleBeanValidationException(MethodArgumentNotValidException ex) {
         log.error(ex.getMessage());
@@ -44,13 +50,4 @@ public class ExceptionHandlerController {
                         error.getField()))
                 .toList();
     }
-
-    @ResponseBody
-    @ResponseStatus(BAD_REQUEST)
-    @ExceptionHandler(ValidacaoException.class)
-    public ErrorMessage handleNotFoundException(ValidacaoException ex) {
-        log.error(ex.getMessage());
-        return ErrorMessage.of(ex.getMessage());
-    }
 }
-

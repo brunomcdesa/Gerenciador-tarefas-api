@@ -3,7 +3,6 @@ package com.example.gerenciadortarefas.tarefa.dto;
 import com.example.gerenciadortarefas.comum.enums.EBoolean;
 import com.example.gerenciadortarefas.comum.enums.EDepartamento;
 import com.example.gerenciadortarefas.configuracoes.PredicateBase;
-import org.apache.commons.lang3.StringUtils;
 
 import java.time.LocalDateTime;
 import java.time.LocalTime;

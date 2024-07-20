@@ -1,15 +1,15 @@
 package com.example.gerenciadortarefas.tarefa.controller;
 
 import com.example.gerenciadortarefas.configuracoes.PageRequest;
-import com.example.gerenciadortarefas.pessoa.dto.PessoaResponse;
 import com.example.gerenciadortarefas.tarefa.dto.TarefaFiltro;
 import com.example.gerenciadortarefas.tarefa.dto.TarefaRequest;
 import com.example.gerenciadortarefas.tarefa.dto.TarefaResponse;
 import com.example.gerenciadortarefas.tarefa.service.TarefaService;
-import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.web.bind.annotation.*;
+
+import jakarta.validation.Valid;
 
 import static org.springframework.http.HttpStatus.NO_CONTENT;
 

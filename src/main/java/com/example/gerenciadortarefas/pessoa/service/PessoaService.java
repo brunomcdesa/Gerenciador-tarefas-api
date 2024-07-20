@@ -4,6 +4,7 @@ import com.example.gerenciadortarefas.comum.enums.EDepartamento;
 import com.example.gerenciadortarefas.configuracoes.PageRequest;
 import com.example.gerenciadortarefas.configuracoes.exceptions.NotFoundException;
 import com.example.gerenciadortarefas.pessoa.dto.PessoaFiltro;
+import com.example.gerenciadortarefas.pessoa.dto.PessoaGastoResponse;
 import com.example.gerenciadortarefas.pessoa.dto.PessoaRequest;
 import com.example.gerenciadortarefas.pessoa.dto.PessoaResponse;
 import com.example.gerenciadortarefas.pessoa.model.Pessoa;
@@ -13,11 +14,11 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Service;
 
-import java.time.LocalTime;
+import java.time.Duration;
+import java.time.LocalDate;
 import java.util.Optional;
-import java.util.concurrent.atomic.AtomicReference;
 
-import static java.time.format.DateTimeFormatter.ofPattern;
+import static java.lang.String.format;
 
 @Slf4j
 @Service
@@ -61,14 +62,33 @@ public class PessoaService {
     }
 
     private String getTotalHorasGastas(Pessoa pessoa) {
-        var totalHorasGastas = new AtomicReference<>(LocalTime.of(0, 0, 0));
-        pessoa.getTarefas()
-                .forEach(tarefa -> {
-                    var duracao = tarefa.getDuracao();
-                    totalHorasGastas.set(totalHorasGastas.get().plusHours(duracao.getHour())
-                            .plusMinutes(duracao.getMinute())
-                            .plusSeconds(duracao.getSecond()));
-                });
-        return totalHorasGastas.get().format(ofPattern("HH:mm:ss"));
+        var duracoes = pessoa.getTarefas().stream()
+                .map(tarefa -> Duration.ofHours(tarefa.getDuracao().getHour())
+                        .plusMinutes(tarefa.getDuracao().getMinute())
+                        .plusSeconds(tarefa.getDuracao().getSecond()))
+                .reduce(Duration.ZERO, Duration::plus);
+        return format("%02d:%02d:%02d", duracoes.toHours(), duracoes.toMinutesPart(),
+                duracoes.toSecondsPart());
+    }
+
+    public PessoaGastoResponse buscarMediaHorasGastas(String nome, LocalDate dataInicial, LocalDate dataFinal) {
+        var pessoa = repository.findByNomeAndPeriodo(nome, dataInicial, dataFinal)
+                .orElseThrow(() -> new NotFoundException("Pessoa não encontrada."));
+        return new PessoaGastoResponse(pessoa.getNome(), getMediaHorasGastas(pessoa));
+    }
+
+    private String getMediaHorasGastas(Pessoa pessoa) {
+        var qtdTarefas = pessoa.getTarefas().size();
+        if (qtdTarefas == 0) {
+            return format("%.2f", (double) qtdTarefas);
+        }
+
+        var totalHorasGastas = pessoa.getTarefas().stream()
+                .map(tarefa -> tarefa.getDuracao().getHour())
+                .mapToInt(Integer::intValue)
+                .sum();
+
+        var mediaHorasGastas = (double) totalHorasGastas / qtdTarefas;
+        return format("%.2f", mediaHorasGastas);
     }
 }

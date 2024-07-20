@@ -3,7 +3,6 @@ package com.example.gerenciadortarefas.tarefa.dto;
 import com.example.gerenciadortarefas.comum.enums.EBoolean;
 import com.example.gerenciadortarefas.comum.enums.EDepartamento;
 import com.fasterxml.jackson.annotation.JsonFormat;
-import org.springframework.cglib.core.Local;
 
 import java.time.LocalDateTime;
 import java.time.LocalTime;

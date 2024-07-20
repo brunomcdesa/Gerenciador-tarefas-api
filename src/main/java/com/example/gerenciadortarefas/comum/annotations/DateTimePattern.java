@@ -2,7 +2,6 @@ package com.example.gerenciadortarefas.comum.annotations;
 
 import com.fasterxml.jackson.annotation.JacksonAnnotationsInside;
 import com.fasterxml.jackson.annotation.JsonFormat;
-import org.springframework.format.annotation.DateTimeFormat;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
