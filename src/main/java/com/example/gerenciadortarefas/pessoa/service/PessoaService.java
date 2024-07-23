@@ -25,6 +25,8 @@ import static java.lang.String.format;
 @RequiredArgsConstructor
 public class PessoaService {
 
+    private static final String PESSOA_NAO_ENCONTRADA = "Pessoa não encontrada.";
+
     private final PessoaRepository repository;
 
     public void salvar(PessoaRequest request) {
@@ -49,7 +51,7 @@ public class PessoaService {
 
     private Pessoa findById(Integer id) {
         return repository.findById(id)
-                .orElseThrow(() -> new NotFoundException("Pessoa não encontrada."));
+                .orElseThrow(() -> new NotFoundException(PESSOA_NAO_ENCONTRADA));
     }
 
     public void remover(Integer id) {
@@ -73,7 +75,7 @@ public class PessoaService {
 
     public PessoaGastoResponse buscarMediaHorasGastas(String nome, LocalDate dataInicial, LocalDate dataFinal) {
         var pessoa = repository.findByNomeAndPeriodo(nome, dataInicial, dataFinal)
-                .orElseThrow(() -> new NotFoundException("Pessoa não encontrada."));
+                .orElseThrow(() -> new NotFoundException(PESSOA_NAO_ENCONTRADA));
         return new PessoaGastoResponse(pessoa.getNome(), getMediaHorasGastas(pessoa));
     }
 
@@ -84,8 +86,7 @@ public class PessoaService {
         }
 
         var totalHorasGastas = pessoa.getTarefas().stream()
-                .map(tarefa -> tarefa.getDuracao().getHour())
-                .mapToInt(Integer::intValue)
+                .mapToInt(tarefa -> tarefa.getDuracao().getHour())
                 .sum();
 
         var mediaHorasGastas = (double) totalHorasGastas / qtdTarefas;

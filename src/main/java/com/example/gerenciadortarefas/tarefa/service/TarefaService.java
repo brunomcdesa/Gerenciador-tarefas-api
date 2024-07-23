@@ -15,6 +15,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Service;
 
 import jakarta.transaction.Transactional;
+import java.util.List;
 
 @Service
 @RequiredArgsConstructor
@@ -58,4 +59,9 @@ public class TarefaService {
             throw new ValidacaoException("A tarefa já foi finalizada.");
         }
     }
+
+    public List<TarefaResponse> listarPendentes() {
+        return repository.findPendentes();
+    }
+
 }

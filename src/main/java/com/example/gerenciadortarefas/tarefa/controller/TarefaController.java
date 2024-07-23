@@ -11,6 +11,8 @@ import org.springframework.web.bind.annotation.*;
 
 import jakarta.validation.Valid;
 
+import java.util.List;
+
 import static org.springframework.http.HttpStatus.NO_CONTENT;
 
 @RestController
@@ -43,4 +45,8 @@ public class TarefaController {
         service.finalizar(id);
     }
 
+    @GetMapping("pendentes")
+    public List<TarefaResponse> listarPendentes() {
+        return service.listarPendentes();
+    }
 }
